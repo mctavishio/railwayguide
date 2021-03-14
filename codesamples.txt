@@ -1,0 +1,897 @@
+<code>
+https://mnartists.walkerart.org/
+dislay = 
+inline
+block
+contents
+flex
+grid
+inline-block
+inline-flex
+inline-grid
+inline-table
+list-item
+run-in
+table
+table-caption
+table-column-group
+table-header-group
+table-footer-group
+table-row-group
+table-cell
+table-column
+table-row
+none
+initial
+inherit
+
+/* legacy values */
+display: block;
+display: inline;
+display: inline-block;
+display: flex;
+display: inline-flex;
+display: grid;
+display: inline-grid;
+display: flow-root;
+
+/* box generation */
+display: none;
+display: contents;
+
+/* two-value syntax */
+display: block flow;
+display: inline flow;
+display: inline flow-root;
+display: block flex;
+display: inline-flex;
+display: block grid;
+display: inline grid;
+display: block flow-root;
+
+/* other values */
+display: table;
+display: table-row; /* all table elements have an equivalent CSS display value */
+display: list-item;
+
+/* Global values */
+display: inherit;
+display: initial;
+display: unset
+
+external & internal definitions
+<display-outside> values (per the spec)
+block
+inline
+run-in
+
+<display-inside>
+flow
+flow-root
+table
+flex
+grid
+ruby
+
+<display-listitem>
+list-item (with list-style-type list-style-position)
+
+<display-internal>
+table-row-group
+table-header-group
+table-footer-group
+table-row
+table-cell
+table-column-group
+table-column
+table-caption
+ruby-base 
+ruby-text
+ruby-base-container
+ruby-text-container
+
+<display-box>
+contents
+none
+
+<display-legacy>
+inline-block (the same as "inline flow-root")
+inline-table
+inline-flex
+inline-grid
+
+style guide :::
+use html tags when possible
+ex: <table> ...
+
+avoid using things like display: contents as it takes
+the element out of the accessibility tree
+
+look forward to two value display declaration
+but use legacy single word format for now due to lack of browser support
+
+box-sizing: content-box | border-box
+
+in the spec
+
+https://www.w3.org/TR/css-box/#index
+body {
+margin-top: 1em;
+  margin-right: 2em;
+  margin-bottom: 3em;
+  margin-left: 2em;
+  }
+  same as :
+  body { margin 1em 2em 3em }
+
+https://www.w3.org/TR/css-display/#index
+
+
+
+
+
+
+flex
+
+
+/* Specify <'width'> */
+flex-basis: 10em;
+flex-basis: 3px;
+flex-basis: auto;
+
+/* Intrinsic sizing keywords */
+flex-basis: fill;
+flex-basis: max-content;
+flex-basis: min-content;
+flex-basis: fit-content;
+
+/* Automatically size based on the flex item’s content */
+flex-basis: content;
+
+/* The direction text is laid out in a line */
+flex-direction: row;
+
+/* Like <row>, but reversed */
+flex-direction: row-reverse;
+
+/* The direction in which lines of text are stacked */
+flex-direction: column;
+
+/* Like <column>, but reversed */
+flex-direction: column-reverse;
+
+style guide ::: do not use row-reverse or column-reverse for accessibility tree
+correspondance
+
+flex-wrap: nowrap; /* Default value */
+flex-wrap: wrap;
+flex-wrap: wrap-reverse;
+
+/* <number> values */
+flex-grow: 3;
+flex-grow: 0.6;
+
+/* <number> values */
+flex-shrink: 2;
+flex-shrink: 0.6;
+
+exanmple of shorthand :
+article {
+  flex: 1 200px;
+}
+
+article:nth-of-type(3) {
+  flex: 2 200px;
+}
+
+or :::
+flex: <flex-grow> <flex-shrink> <flex-basis> 
+
+box alignments :::
+align-content: stretch|center|flex-start|flex-end|space-between|space-around|initial|inherit;
+justify-content: flex-start|flex-end|center|space-between|space-around|space-evenly|initial|inherit;
+
+align-items controls where the flex items sit on the cross axis.
+justify-content controls where the flex items sit on the main axis.
+
+nested flex
+article:nth-of-type(3) div:first-child {
+  flex:1 100px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+writing-mode: horizontal-tb;
+writing-mode: vertical-rl;
+writing-mode: vertical-lr;
+writing-mode: sideways-rl;
+writing-mode: sideways-lr;
+
+
+
+
+simplest :
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    grid-gap: 10px;
+}
+<div class="wrapper">
+    <div class="box1">One</div>
+    <div class="box2">Two</div>
+    <div class="box3">Three</div>
+    <div class="box4">Four</div>
+    <div class="box5">Five</div>
+    <div class="box6">Six</div>
+</div>
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 100px 100px;
+    grid-gap: 10px;
+}
+
+.box1 {
+    grid-column: 2 / 4;
+    grid-row: 1;
+}
+
+.box2 {
+    grid-column: 1;
+    grid-row: 1 / 3;
+}
+
+.box3 {
+    grid-row: 2;
+    grid-column: 3;
+}
+<div class="wrapper">
+    <div class="box1">One</div>
+    <div class="box2">Two</div>
+    <div class="box3">Three</div>
+</div>
+
+ex:
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 20px;
+    gap: 20px;
+}
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-auto-rows: minmax(100px, auto);
+    grid-gap: 20px;
+    gap: 20px;
+}
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: minmax(100px, auto);
+  grid-gap: 20px;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 20px;
+}
+
+header {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+
+article {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+aside {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+footer {
+  grid-column: 1 / 3;
+  grid-row: 3;
+}
+
+or ::: define placement of children on container
+.container {
+  display: grid;
+  grid-template-areas:
+      "header header"
+      "sidebar content"
+      "footer footer";
+  grid-template-columns: 1fr 3fr;
+  grid-gap: 20px;
+}
+header {
+  grid-area: header;
+}
+
+article {
+  grid-area: content;
+}
+
+aside {
+  grid-area: sidebar;
+}
+
+footer {
+  grid-area: footer;
+}
+
+You need to have every cell of the grid filled.
+To span across two cells, repeat the name.
+To leave a cell empty, use a . (period).
+Areas must be rectangular — you can’t have an L-shaped area for example.
+Areas can't be repeated in different locations.
+
+
+
+position: static | relative | fixed | absolute | sticky
+
+column-count: 3;
+column-width: 200px;
+To turn a block into a multicol container we use either the column-count property, which tells the browser how many columns we would like to have, or the column-width property
+
+https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design
+The term responsive design was coined by Ethan Marcotte in 2010 and described the use of three techniques in combination.
+
+The first was the idea of fluid grids, something which was already being explored by Gillenwater, and can be read up on in Marcotte's article, Fluid Grids (published in 2009 on A List Apart).
+The second technique was the idea of fluid images. Using a very simple technique of setting the max-width property to 100%, images would scale down smaller if their containing column became narrower than the image's intrinsic size, but never grow larger. This enables an image to scale down to fit in a flexibly-sized column, rather than overflow it, but not grow larger and become pixelated if the column becomes wider than the image.
+The third key component was the media query. Media Queries enable the type of layout switch that Cameron Adams had previously explored using JavaScript, using only CSS. Rather than having one layout for all screen sizes, the layout could be changed. Sidebars could be repositioned for the smaller screen, or alternate navigation could be displayed.
+
+Modern layout methods such as Multiple-column layout, Flexbox, and Grid are responsive by default. They all assume that you are trying to create a flexible grid and give you easier ways to do so.
+
+width: min(100px, 25%, 50vh, 30ch);
+(1ch is the width of 0)
+font-size: clamp(0.9rem, 1vw + 1rem, 2.2rem);
+
+
+length units
+px
+em based on the current typefaces capital letter “M”
+rem
+ex This is a measurement based on the x-height of the current font
+vw vh vmin vmax %
+
+
+let repeatingFunc = () => {
+    console.log("It's been 5 seconds. Execute the function again.");
+    setTimeout(repeatingFunc, 5000);
+}
+
+setTimeout(repeatingFunc, 5000);
+
+
+function multiply (a, b = 2) {
+  return a * b;
+}
+
+font-variant: normal|small-caps|initial|inherit;
+font-variant-caps: normal|small-caps|all-small-caps|petite-caps|all-petite-caps|unicase|titling-caps|initial|inherit|unset;
+
+
+arrays
+
+create from string :::
+RegExp.exec(), String.match(), and String.replace().
+
+Array.from()
+Creates a new Array instance from an array-like or iterable object.
+Array.isArray()
+Returns true if the argument is an array, or false otherwise.
+Array.of()
+
+
+
+
+
+variable font
+There are five registered axes, which control known, predictable features of the font: weight, width, optical size, slant and italics. Besides those, a font can contain custom axes. These can control any design aspect of the font the type designer wishes: the size of serifs, the length of swashes, the height of ascenders or the size of the dot on the i.
+https://web.dev/variable-fonts/
+
+@font-face {
+	font-family: 'Roboto Flex';
+	src: url('RobotoFlex-VF.woff2') format('woff2 supports variations'),
+       url('RobotoFlex-VF.woff2') format('woff2-variations');
+	font-weight: 100 1000;
+	font-stretch: 25% 151%;
+}
+
+https://fonts.google.com/specimen/Raleway?preview.text_type=custom&preview.text=0%20Almost%20before%20we%20knew%20it,%20we%20had%20left%20the%20ground.%20#standard-styles
+https://fonts.google.com/specimen/Roboto+Mono?preview.text_type=custom&preview.text=0%20Almost%20before%20we%20knew%20it,%20we%20had%20left%20the%20ground.
+https://fonts.google.com/specimen/Inconsolata?preview.text_type=custom&preview.text=0%20aAlmost%20before%20we%20knew%20it,%20we%20had%20left%20the%20ground.
+https://fonts.google.com/specimen/JetBrains+Mono?preview.text_type=custom&preview.text=0%20Almost%20before%20we%20knew%20it,%20we%20had%20left%20the%20ground.
+https://fonts.google.com/specimen/Encode+Sans?preview.text_type=custom&preview.text=0%C2%A0%201%20Almost%20before%20we%20knew%20it,%20we%20had%20left%20the%20ground.
+https://fonts.google.com/specimen/Dosis?preview.text=0%20almost%20code%201%20rem%20kg&preview.text_type=custom#standard-styles
+https://www.recursive.design/
+https://developers.google.com/fonts/docs/css2
+
+function greet ({greeting, name, time = 'today'}) {
+	return `${greeting} ${name}! How are you ${time}?`;
+}
+// returns "Hello George! How are you this evening?"
+let message = greet({
+	name: 'George',
+	greeting: 'Hello',
+	time: 'this evening'
+});
+
+use camalCase for css classes (looks like javascript style then)
+
+/* Good */
+a:hover,
+a:focus {
+   color: green;
+}
+
+/* Bad - missing :focus */
+a:hover {
+   color: green;
+}
+
+
+fetch('https://jsonplaceholder.typicode.com/posts').then(function (response) {
+	// The API call was successful!
+	return response.json();
+}).then(function (data) {
+	// This is the JSON from our response
+	console.log(data);
+}).catch(function (err) {
+	// There was an error
+	console.warn('Something went wrong.', err);
+});
+
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices
+
+
+fetch(url).then(function(response) {
+
+
+ctx.decodeAudioData(audioData).then(function(decodedData) {
+ // use the decoded data here
+});
+
+https://artandlogic.com/2019/07/unlocking-the-web-audio-api/
+const _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    /**
+     * Allow the requester to load a new sfx, specifying a file to load.
+     * @param {string} sfxFile
+     * @returns {Promise<ArrayBuffer>}
+     */
+    async function load (sfxFile) {
+        const _sfxFile = await fetch(sfxFile);
+        return await _sfxFile.arrayBuffer();
+    };
+
+    /**
+     * Load and play the specified file.
+     * @param sfxFile
+     * @returns {Promise<AudioBufferSourceNode>}
+     */
+    function play (sfxFile) {
+        return load(sfxFile).then((arrayBuffer) => {
+            const audioBuffer = _audioCtx.decodeAudioData(arrayBuffer);
+            const sourceNode = _audioCtx.createBufferSource();
+            sourceNode.buffer = audioBuffer;
+            sourceNode.connect(_audioCtx.destination);
+            sourceNode.start();
+
+            return sourceNode;
+        });
+    };
+
+
+
+    const audioCtx =  new (window.AudioContext || window.webkitAudioContext)({ latencyHint: 'playback' })
+const $ = document.querySelector.bind(document)
+
+initSound(
+  'https://batman.dev/static/61881209/50.opus',
+  $('#sound1')
+)
+initSound(
+  'https://batman.dev/static/61881209/99.opus',
+  $('#sound2')
+)
+
+function initSound(url, playbackButton) {
+  fetch(url)
+  .then(resp => resp.arrayBuffer())
+  .then(arrayBuffer => audioCtx.decodeAudioData(arrayBuffer))
+  .then(audioBuffer => {
+    playbackButton.onclick = () => playSound(audioBuffer)
+    playbackButton.disabled = false 
+  })    
+}
+
+function playSound(audioBuffer) {
+  const bufferSource = audioCtx.createBufferSource()
+  bufferSource.buffer = audioBuffer;
+  bufferSource.connect(audioCtx.destination);
+  bufferSource.start(0);  
+}
+
+https://every-layout.dev/layouts/cover/
+
+* {
+  box-sizing: border-box;
+  /* other global styles */
+}
+//for reach use :::
+justify-content: center (horizontal) and align-content: center (vertical)
+
+
+.cover {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.cover > * {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cover > :first-child:not(.centered) {
+  margin-top: 0;
+}
+
+.cover > :last-child:not(.centered) {
+  margin-bottom: 0;
+}
+
+.cover > .centered {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* start template */
+.separated > * {
+  list-style: none;
+  display: inline;
+}
+
+.separated > * + *::before {
+  content: var(--symbol, '→')'\0020';
+}
+/* end template */
+
+/* start instance */
+.separated.hand {
+  --symbol: '☞'
+}
+/* end instance */
+
+
+align-items:stretch makes each column equal height
+
+
+https://every-layout.dev/layouts/sidebar/
+<div class="with-sidebar">
+  <div> <!-- intermediary wrapper -->
+    <div><!-- non-sidebar --></div>
+    <div><!-- sidebar --></div>
+  </div>
+</div>
+
+.with-sidebar {
+  overflow: hidden;
+}
+
+.with-sidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(var(--s1) / 2 * -1);
+}
+
+.with-sidebar > * > * {
+  margin: calc(var(--s1) / 2);
+  flex-basis: 20vw;
+  flex-grow: 1;
+}
+
+.with-sidebar > * > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - var(--s1));
+}
+
+
+
+philosophy
+In Global and local styling we set out three main tiers of styling:
+https://every-layout.dev/rudiments/axioms/
+Universal (including inherited) styles
+Layout primitives
+Utility classes
+"Instead of thinking of designing for the web as creating visual artefacts, think of it as writing programs for generating visual artefacts."
+
+rather than :::
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+figcaption {
+  max-width: 60ch;
+}
+
+better ::: exception-based css
+* {
+  max-width: 60ch;
+}
+
+html,
+body,
+div,
+header,
+nav,
+main,
+footer {
+  max-width: none;
+}
+
+
+
+
+
+
+https://piccalil.li/tutorial/fluid-typography-with-css-clamp
+(but i still like plain-old rem-based ideas with root at 1 rem implicitely)
+h1,
+h2,
+h3,
+p {
+  font-size: clamp(
+    var(--fluid-type-min, 1rem),
+    calc(1rem + var(--fluid-type-target, 3vw)),
+    var(--fluid-type-max, 1.3rem)
+  );
+}
+
+h1 {
+  --fluid-type-min: 2.5rem;
+  --fluid-type-max: 5rem;
+  --fluid-type-target: 5vw;
+
+  max-width: 15ch;
+}
+
+h2 {
+  --fluid-type-min: 1.8rem;
+  --fluid-type-max: 3rem;
+}
+
+h3 {
+  --fluid-type-min: 1.5rem;
+  --fluid-type-max: 2.5rem;
+}
+
+h2,
+h3 {
+  max-width: 30ch;
+}
+
+p {
+  max-width: 60ch;
+}
+
+
+
+
+https://piccalil.li/tutorial/create-a-responsive-grid-layout-with-no-media-queries-using-css-grid
+<div class="wrapper">
+  <ul class="auto-grid">
+    <li>Item 1</li>
+    <li>Item 2</li>
+    <li>Item 3</li>
+    <li>Item 4</li>
+    <li>Item 5</li>
+    <li>Item 6</li>
+    <li>Item 7</li>
+    <li>Item 8</li>
+    <li>Item 9</li>
+    <li>Item 10</li>
+    <li>Item 11</li>
+    <li>Item 12</li>
+  </ul>
+</div>
+
+/*
+  AUTO GRID
+  Set the minimum item size with `--auto-grid-min-size` and you'll
+  get a fully responsive grid with no media queries.
+*/
+.auto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size, 16rem), 1fr));
+  grid-gap: 1rem;
+}
+/*
+  WRAPPER
+  A utility with a max width that contains child elements and horizontal centers them
+*/
+.wrapper {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+
+/* Presentational styles */
+
+body {
+  background: #efefef;
+  padding: 1rem;
+  line-height: 1.4;
+  font-family: Georgia, serif;
+  font-size: 1.5rem;
+}
+
+li {
+  padding: 5rem 1rem;
+  text-align: center;
+  background: hsl(338,81%,41%);
+  color: #ffffff;
+}
+
+
+
+
+.magazine {
+  width: 95vw;
+  height: 90vh;
+  outline: 6px solid #121219;
+  display: grid;
+  grid-template-rows: 75px 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+}
+
+.title {
+  grid-row: 1;
+  grid-column: 1 / 3;
+}
+
+.image {
+  grid-row: 1 / 3;
+  grid-column: 2 / 5;
+}
+
+.content1 {
+  grid-row: 2 / 4;
+  grid-column: 1 / 2;
+}
+
+.content2 {
+  grid-row: 3 / 4;
+  grid-column: 2 / 4;
+}
+
+.quote {
+  grid-row: 2;
+  grid-column: 4;
+}
+
+.score {
+  grid-row: 3;
+}
+
+
+.magazine {
+  width: 95vw;
+  height: 800px;
+  outline: 6px solid #121219;
+  display: grid;
+  grid-template-rows: 130px 2fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+  background: #e5e5e5;
+}
+
+.item {
+  border: none;
+  text-shadow: none;
+  color: #000;
+}
+
+.title {
+  grid-row: 1;
+  grid-column: 1 / 3;
+  z-index: 1;
+  background: #f4d434;
+  color: black;
+  justify-content: start;
+  align-items: end;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: calc(10px + 2.6vw);
+  padding-left: 20px;
+  display: grid;
+}
+
+.emph {
+  transform: scaleY(1.5);
+  white-space: nowrap;
+}
+
+.image {
+  grid-row: 1 / 3;
+  grid-column: 2 / 5;
+  background: url(https://gedd.ski/img/divinity-dragon.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+.content1 {
+  grid-row: 2 / 4;
+  grid-column: 1 / 2;
+  overflow: hidden;
+  font-size: 16px;
+  display: block;
+}
+
+.content2 {
+  grid-row: 3 / 4;
+  grid-column: 2 / 4;
+  overflow: hidden;
+  font-size: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  align-items: start;
+}
+
+.content1, .content2 {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.quote {
+  grid-row: 2;
+  grid-column: 4;
+  z-index: 2;
+  background: rgba(0,0,0, .5);
+  align-self: end;
+  justify-self: start;
+  position: relative;
+  color: #e5d54f;
+  border-left: 10px solid #e5d54f;
+  padding: 10px;
+  right: 125px;
+  bottom: 6%;
+  text-transform: uppercase;
+  font-size: calc(12px + 1.1vw);
+}
+
+.score {
+  grid-row: 3;
+  background: #f4d434;
+  width: 70%;
+  height: 70%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 5px;
+  font-size: calc(12px + 2.6vw);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+https://mastery.games/post/overlapping-grid-items/
+One interesting thing to check out is that quote box that's overlapping the game image. It's positioned into the 2nd row, 4th column. But we used position: relative to shift it up and to the left to break out of the grid a bit, just like it does in the magazine. Keep an eye out for this. Oftentimes layouts that don't appear to be a grid actually are, just with some clever item shifting.
+
+</code>
