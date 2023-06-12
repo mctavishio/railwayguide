@@ -136,22 +136,22 @@
 	<div class="tcontainer">
 		<div class="tickermove">
 			<div class="tickerwrap">
-				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  .  '",". . . . . .& | { . . ::: x</div>
+				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  . < > '",". . . . . .& | { . . ::: x</div>
 			</div>
 		</div>
 		<div class="tickermove">
 			<div class="tickerwrap">
-				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  .  '",". . . . . .& | { . . ::: x</div>
+				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  . < > '",". . . . . .& | { . . ::: x</div>
 			</div>
 		</div>
 		<div class="tickermove">
 			<div class="tickerwrap">
-				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  . '",". . . . . .& | { . . ::: x</div>
+				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  . < > '",". . . . . .& | { . . ::: x</div>
 			</div>
 		</div>
 		<div class="tickermove">
 			<div class="tickerwrap">
-				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  .  '",". . . . . .& | { . . ::: x</div>
+				<div class="tickeritem">_.._._+ . < +=_.._._+ . < +=_.._._+ . < +=: :  . < > '",". . . . . .& | { . . ::: x</div>
 			</div>
 		</div>
 	</div>
@@ -187,8 +187,11 @@
 
 
 
-
+<div id="terminal" class="code"></div>
+<div id="terminalhsl" class="code"></div>
 <div id="colorsets"></div>
+
+<div id="colorsetshsl"></div>
 
 <article>
 	<header>
@@ -426,6 +429,15 @@ let z = getz();
 	    }
 	}
 	let colorsetsdiv = document.querySelector("#colorsets");
+	let terminaldiv = document.querySelector("#terminal");
+	// terminaldiv.innerHTML = JSON.stringify(colors, null, 4);
+	let terminalhsldiv = document.querySelector("#terminalhsl");
+	terminalhsldiv.innerHTML = JSON.stringify(colors.map((colorsets,j) => {
+		return { title: colorsets.title, lists: colorsets.lists.map( (colorset,k) => {
+			return colorset.map(color => {return {hex: color, rgb: z.tools.hexToRGB(color), hsla: z.tools.RGBToHSLA(z.tools.hexToRGB(color))} })
+		}) }
+
+	}), null, 4);
 	colors.map( (colorsets,j) => {
 		let colorsetsarticle = z.tools.createElement({
 				parentel: colorsetsdiv, tag: "article",

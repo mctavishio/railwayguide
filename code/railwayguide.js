@@ -79,6 +79,65 @@ let getz = () => {
 			});
 			parentel.appendChild(el);
 			return el;
+		},
+		hexToRGB: h => {
+			let r = 0, g = 0, b = 0;
+			// 3 digits
+			if (h.length == 4) {
+				r = "0x" + h[1] + h[1];
+				g = "0x" + h[2] + h[2];
+				b = "0x" + h[3] + h[3];
+			// 6 digits
+			} else if (h.length == 7) {
+				r = "0x" + h[1] + h[2];
+				g = "0x" + h[3] + h[4];
+				b = "0x" + h[5] + h[6];
+			}
+			return {r:+r,g:+g,b:+b};
+		},
+		RGBToHSLA: ({r,g,b,a=1}={}) => {
+			// Make r, g, and b fractions of 1
+			r /= 255;
+			g /= 255;
+			b /= 255;
+
+			// Find greatest and smallest channel values
+			let cmin = Math.min(r,g,b),
+			cmax = Math.max(r,g,b),
+			delta = cmax - cmin,
+			h = 0,
+			s = 0,
+			l = 0;
+
+			if (delta == 0)
+			h = 0;
+			// Red is max
+			else if (cmax == r)
+			h = ((g - b) / delta) % 6;
+			// Green is max
+			else if (cmax == g)
+			h = (b - r) / delta + 2;
+			// Blue is max
+			else
+			h = (r - g) / delta + 4;
+
+			h = Math.round(h * 60);
+
+			// Make negative hues positive behind 360°
+			if (h < 0) h += 360;
+
+			// Calculate lightness
+			l = (cmax + cmin) / 2;
+
+			// Calculate saturation
+			s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+
+			// Multiply l and s by 100
+			s = +(s * 100).toFixed(1);
+			l = +(l * 100).toFixed(1);
+			//return "hsl(" + h + "," + s + "%," + l + "%)";
+			// return "hsla(" + h + "," + s + "%," +l + "%," + a + ")";
+			return {h:h, s:s, l:l, a:a}
 		}
 	};
 	z.data = {
@@ -134,6 +193,7 @@ let getz = () => {
 			basetrackurl: "https://storage.googleapis.com/www.blueboatfilms.com/sound/",
 			// basetrackurl: "http://www.blueboatfilms.com/sound/",
 			baseclipurl: "data/sound/",
+			allclips: ["128_c.mp3","144_d.mp3","192_g.mp3","288_d.mp3","384_g.mp3","432_a.mp3","64_c.mp3","accordion.mp3","bagpipe1.mp3","bagpipe1a.mp3","bagpipe1e.mp3","bagpipe1f.mp3","bagpipe1g.mp3","bagpipe1h.mp3","bagpipegeese.mp3","bagpiperadio.mp3","bell11.mp3","bell13.mp3","bell2.mp3","bell6.mp3","bell9.mp3","bird0.mp3","bird1.mp3","bird2.mp3","bird3.mp3", "birdcanyon.mp3","birdcry.mp3","birdcry4.mp3","birds4.mp3","birds5.mp3","birds6.mp3","birdtheme.mp3","cello_pitch1.mp3","cello_pitch2.mp3","cello_pitch3.mp3","cello_pitch4.mp3","cello_pitch5.mp3","cellohighthunk.mp3","celloknock0.mp3","celloknockcanyon.mp3","cellothunk.mp3","cellothunkcanyon.mp3","cellothunkradio.mp3","cellothunktelephone.mp3","cistern.mp3","cisterncello.mp3","clapping0.mp3","clarinet1.mp3","clarinet2.mp3","clarinetjazz0b.mp3","clarinetnotes_a.mp3","clarinetnotes_b.mp3","clarinetnotes_c.mp3","clarinetnotes_d.mp3","clarinetnotes_e.mp3","clarinetnotes_f.mp3","clarinetnotes_g.mp3","clarinetnotes_h.mp3","clarinetnotes_i.mp3","cmpb20200708_3.mp3","cmpb20200708_4.mp3","cmpb20200708_5.mp3","coffepot1eminor.mp3","cowbell.mp3","crow1.mp3","fan1.mp3","homing20201221_1pluck1.mp3","homing20201221_1thunk.mp3","icebowedcymbal2.mp3","icebowedvibes1.mp3","kantela1.mp3","kantela2.mp3","kantele3.mp3","knocking1.mp3","knocking2.mp3","longbell.mp3","lookingforyou0.mp3","magsSessionClips_1.mp3","magsSessionClips_2a.mp3","magsSessionClips_2b.mp3","magsSessionClips_3b.mp3","magsSessionClips_4b.mp3","magsSessionClips_5b.mp3","mctbreathing0.mp3","mctvox1b.mp3","mctvox1c.mp3","meow2.mp3","monksfromouterspacecistern_a.mp3","monksfromouterspacecistern_b.mp3","monksfromouterspacecistern_c.mp3","monksfromouterspacecistern_d.mp3","monksfromouterspacecistern_e.mp3","monksfromouterspacecistern_f.mp3","monksfromouterspacecistern_g.mp3","monksfromouterspacecistern_h.mp3","monksfromouterspacecistern_i.mp3","monksfromouterspacecistern_j.mp3","noise1.mp3","numberstation0.mp3","numberstation0b.mp3","piano1.mp3","piano3a.mp3","piano3b.mp3","rider1_a.mp3","rider1_b.mp3","rubbedpianoharp0.mp3","scraping1.mp3","sheila.mp3","sheila1.mp3","silobirds.mp3","stapler.mp3","starfallremix.mp3","strangebells.mp3","submarineecho.mp3","surf.mp3","surf2.mp3","t0.mp3","therider0_a.mp3","therider0_b.mp3","therider0_c.mp3","therider0_d.mp3","therider0_e.mp3","therider0b_a.mp3","therider0b_b.mp3","therider0b_c.mp3","therider0b_d.mp3","therider0b_e.mp3","therider0b_f.mp3","therider0b_g.mp3","thunk.mp3","tone64hz_clip.mp3","tornadosiren.mp3","traffickcorebirds1_a.mp3","traffickcorebirds1_b.mp3","traffickcorebirds1_c.mp3","train1.mp3","typewriter1.mp3","typewriterlong.mp3","typewriterlongcistern.mp3","vox20200118_8_3b.mp3","vox20200124_itwas.mp3","voxmct0.mp3","weatherradio1.mp3"],
 			tracks: {
 				lovemeditations: {title: "love meditations", url: "lovemeditationspodcast.mp3", duration: 3980 }, //1:06:24
 				rivericarus: {title: "river icarus", url: "rivericaruspodcast.mp3", duration: 2110}, //35:13
@@ -354,6 +414,16 @@ let getz = () => {
 				cmpb20200708_4harmonic: {clip: "cmpb20200708_4", minvolume: 0.4, maxvolume: 0.9 },//* voice			
 
 				//clarinet tones
+				clarinetnotes_a: {clip: "clarinetnotes_a", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_b: {clip: "clarinetnotes_b", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_c: {clip: "clarinetnotes_c", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_d: {clip: "clarinetnotes_d", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_e: {clip: "clarinetnotes_e", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_f: {clip: "clarinetnotes_f", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_g: {clip: "clarinetnotes_g", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_h: {clip: "clarinetnotes_h", minvolume: 0.4, maxvolume: 0.9},
+				clarinetnotes_i: {clip: "clarinetnotes_i", minvolume: 0.4, maxvolume: 0.9},
+
 				clarinet1: {clip: "clarinet1", minvolume: 0.5, maxvolume: 0.9, playbackRate: () => { return z.tools.randomharmonic()/10 } },
 				clarinet2: {clip: "clarinet2", minvolume: 0.4, maxvolume: 0.8, playbackRate: () => { return z.tools.randomharmonic()/10 } },
 				clarinetI: {clip: "clarinet1", minvolume: 0.4, maxvolume: 0.8, playbackRate: () => { return z.data.sound.intervals.I(100) / 100 } },
@@ -490,12 +560,7 @@ let getz = () => {
 				if(!z.radio.loading.includes(clip.url)) {
 					z.radio.loading.push(clip.url);
 					let request = new XMLHttpRequest();
-					//for localhost testing
 					request.open("GET", window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + clip.url, true);
-					// z.tools.logmsg("url = " + window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + "/" + clip.url);
-					// for deploy
-					// request.open("GET", window.location.protocol + "//" + window.location.hostname + "/" + clip.url, true);
-					// z.tools.logmsg("url = " + window.location.protocol + "//" + window.location.hostname + "/"  + clip.url);
 					request.responseType = "arraybuffer";
 					request.onload = () =>  {
 						z.tools.logmsg("loaded ::: " + clip.url);
